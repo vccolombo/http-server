@@ -4,8 +4,16 @@
 
 namespace httpserver
 {
-Connection::Connection(tcp::socket socket, Application& app) : socket_(std::move(socket)), app_(app)
+
+Connection::Connection(tcp::socket socket, Application_ptr app)
+    : socket_(std::move(socket)), app_(std::move(app))
 {
+    // for some reason I just can't understand, changing this to shared_from_this()
+    // (and for course changing Writer_ptr to shared_ptr)
+    // cause some weird bug where the browser waits forever and a request for favicon never arrives,
+    // so I'll just use a pointer here, it should be guaranteed that the Connection object outlives
+    // the app
+    app_->register_writer(this);
 }
 
 void Connection::accept()
@@ -22,7 +30,7 @@ void Connection::read()
             if (!ec)
             {
                 auto data = get_data_from_buffer(bytes_transferred);
-                auto keep_alive = app_.on_data(data, bytes_transferred);
+                auto keep_alive = app_->on_data(data, bytes_transferred);
                 delete[] data;
                 if (keep_alive)
                 {
@@ -46,6 +54,21 @@ uint8_t* Connection::get_data_from_buffer(std::size_t n_bytes)
     is.read(reinterpret_cast<char*>(data), n_bytes);
 
     return data;
+}
+
+void Connection::write(uint8_t* data, std::size_t length)
+{
+    boost::asio::async_write(socket_, boost::asio::buffer(data, length),
+        [](const boost::system::error_code& ec, std::size_t /* length */)
+        {
+            if (!ec)
+            {
+            }
+            else
+            {
+                std::cout << "async_write ERROR " << ec.message() << std::endl;
+            }
+        });
 }
 
 }  // namespace httpserver

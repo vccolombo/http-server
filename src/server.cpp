@@ -4,16 +4,19 @@
 #include <iostream>
 #include <memory>
 
+#include "applicationfactory.hpp"
 #include "connection.hpp"
 
 namespace httpserver
 {
 
-TCPServer::TCPServer(io_context& io_context, tcp::endpoint& endpoint, Application& app)
-    : acceptor_(io_context, endpoint), app_(app)
+TCPServer::TCPServer(
+    io_context& io_context, tcp::endpoint& endpoint, ApplicationFactory& app_factory)
+    : acceptor_(io_context, endpoint), app_factory_(app_factory)
 {
     accept();
 }
+
 void TCPServer::accept()
 {
     acceptor_.async_accept(
@@ -24,7 +27,8 @@ void TCPServer::accept()
                 std::cout << "New connection from: "
                           << socket.remote_endpoint().address().to_string() << ":"
                           << socket.remote_endpoint().port() << std::endl;
-                std::make_shared<Connection>(std::move(socket), app_)->accept();
+                auto app = app_factory_.create();
+                std::make_shared<Connection>(std::move(socket), std::move(app))->accept();
             }
             else
             {
