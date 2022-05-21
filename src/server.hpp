@@ -16,6 +16,9 @@ class TCPServer
     TCPServer(io_context& io_context, tcp::endpoint& endpoint, Application& app);
 
    private:
+    void accept();
+    void read(tcp::socket socket);
+
     tcp::acceptor acceptor_;
     Application& app_;
 };
