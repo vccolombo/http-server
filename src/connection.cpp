@@ -21,12 +21,9 @@ void Connection::read()
         {
             if (!ec)
             {
-                //                std::string line;
-                //                std::istream is(buffer_);
-                //                std::getline(is, line);
-                //                buffer_.consume(buffer_.size());
-
-                auto keep_alive = app_.on_data();
+                auto data = get_data_from_buffer(bytes_transferred);
+                auto keep_alive = app_.on_data(data, bytes_transferred);
+                delete[] data;
                 if (keep_alive)
                 {
                     read();
@@ -38,4 +35,17 @@ void Connection::read()
             }
         });
 }
+
+uint8_t* Connection::get_data_from_buffer(std::size_t n_bytes)
+{
+    // https://www.boost.org/doc/libs/1_79_0/doc/html/boost_asio/reference/streambuf.html
+    buffer_.commit(n_bytes);
+    std::istream is(&buffer_);
+    // https://codereview.stackexchange.com/a/28759
+    auto data = new uint8_t[n_bytes];
+    is.read(reinterpret_cast<char*>(data), n_bytes);
+
+    return data;
+}
+
 }  // namespace httpserver

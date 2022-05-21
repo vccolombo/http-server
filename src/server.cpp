@@ -1,8 +1,8 @@
 #include "server.hpp"
 
 #include <boost/asio.hpp>
-#include <memory>
 #include <iostream>
+#include <memory>
 
 #include "connection.hpp"
 
@@ -21,11 +21,13 @@ void TCPServer::accept()
         {
             if (!ec)
             {
-                std::cout << "New connection from: " << socket.remote_endpoint().address().to_string()
-                          << ":" << socket.remote_endpoint().port() << std::endl;
+                std::cout << "New connection from: "
+                          << socket.remote_endpoint().address().to_string() << ":"
+                          << socket.remote_endpoint().port() << std::endl;
                 std::make_shared<Connection>(std::move(socket), app_)->accept();
             }
-            else {
+            else
+            {
                 std::cout << "async_accept ERROR " << ec.message() << std::endl;
             }
 

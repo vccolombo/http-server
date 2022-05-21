@@ -8,7 +8,8 @@ class Application
    public:
     virtual ~Application() = default;
 
-    virtual bool on_data() = 0;
+    // returns true if the connection should be kept open
+    virtual bool on_data(uint8_t* data, std::size_t length) = 0;
 
    protected:
     Application() = default;

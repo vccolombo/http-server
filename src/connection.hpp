@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/asio.hpp>
+#include <cstdint>
 #include <memory>
 
 #include "application.hpp"
@@ -19,6 +20,7 @@ class Connection : public std::enable_shared_from_this<Connection>
 
    private:
     void read();
+    uint8_t* get_data_from_buffer(std::size_t n_bytes);
 
     tcp::socket socket_;
     boost::asio::streambuf buffer_;
