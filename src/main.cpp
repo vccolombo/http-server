@@ -20,6 +20,11 @@ class HTTPServer final : public httpserver::Application
 //         not implemented
 //    };
 
+    bool on_data() override
+    {
+        return false;
+    }
+
 //    // register get
 //    void get(path, callback);
 //

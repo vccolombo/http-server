@@ -1,6 +1,10 @@
 #include "server.hpp"
 
+#include <boost/asio.hpp>
+#include <memory>
 #include <iostream>
+
+#include "connection.hpp"
 
 namespace httpserver
 {
@@ -15,17 +19,18 @@ void TCPServer::accept()
     acceptor_.async_accept(
         [this](boost::system::error_code ec, tcp::socket socket)
         {
-            std::cout << "New connection from: " << socket.remote_endpoint().address().to_string()
-                      << ":" << socket.remote_endpoint().port() << std::endl;
             if (!ec)
             {
-                read(std::move(socket));
+                std::cout << "New connection from: " << socket.remote_endpoint().address().to_string()
+                          << ":" << socket.remote_endpoint().port() << std::endl;
+                std::make_shared<Connection>(std::move(socket), app_)->accept();
+            }
+            else {
+                std::cout << "async_accept ERROR " << ec.message() << std::endl;
             }
 
             accept();
         });
 }
-
-void TCPServer::read(tcp::socket socket) {}
 
 }  // namespace httpserver

@@ -8,10 +8,10 @@ class Application
    public:
     virtual ~Application() = default;
 
+    virtual bool on_data() = 0;
+
    protected:
     Application() = default;
-
-//    void on_data();
 };
 
 }  // namespace httpserver

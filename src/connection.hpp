@@ -8,18 +8,20 @@
 namespace httpserver
 {
 
-using boost::asio::io_context;
 using boost::asio::ip::tcp;
 
-class TCPServer
+class Connection : public std::enable_shared_from_this<Connection>
 {
    public:
-    TCPServer(io_context& io_context, tcp::endpoint& endpoint, Application& app);
+    Connection(tcp::socket socket, Application& app);
 
-   private:
     void accept();
 
-    tcp::acceptor acceptor_;
+   private:
+    void read();
+
+    tcp::socket socket_;
+    boost::asio::streambuf buffer_;
     Application& app_;
 };
 
