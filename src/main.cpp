@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 #include "server.hpp"
 // fn callback(HTTPParams& params) {}
@@ -9,7 +10,6 @@ namespace httpserver
 class HTTPServer final : public Application
 {
    public:
-    ~HTTPServer() override = default;
     //    void on_data(NetworkMessage& msg)
     //    {
     //        parse
@@ -30,6 +30,9 @@ class HTTPServer final : public Application
         std::string http_msg = std::string(data, data + length);
         std::cout << http_msg << std::endl;
 
+        char response[] = "Hello world";
+        writer_->write(reinterpret_cast<uint8_t*>(response), strlen(response));
+
         return false;
     }
 
@@ -38,6 +41,17 @@ class HTTPServer final : public Application
     //
     //    // register post
     //    void post();
+
+   private:
+};
+
+class HTTPServerFactory final : public ApplicationFactory
+{
+   public:
+    Application_ptr create() override
+    {
+        return std::make_unique<HTTPServer>();
+    }
 
    private:
 };
@@ -50,10 +64,10 @@ int main(int argc, char* argv[])
     httpserver::io_context io_context;
     httpserver::tcp::endpoint endpoint(httpserver::tcp::v4(), port);
 
-    httpserver::HTTPServer http_server;
-    httpserver::TCPServer server(io_context, endpoint, http_server);
-
-    //    http_server.get("/", callback);
+    //    Router router;
+    //    router.get("/", callback);
+    httpserver::HTTPServerFactory http_server_factory;
+    httpserver::TCPServer server(io_context, endpoint, http_server_factory);
 
     io_context.run();
 

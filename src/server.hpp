@@ -3,7 +3,7 @@
 #include <boost/asio.hpp>
 #include <memory>
 
-#include "application.hpp"
+#include "applicationfactory.hpp"
 
 namespace httpserver
 {
@@ -14,13 +14,13 @@ using boost::asio::ip::tcp;
 class TCPServer
 {
    public:
-    TCPServer(io_context& io_context, tcp::endpoint& endpoint, Application& app);
+    TCPServer(io_context& io_context, tcp::endpoint& endpoint, ApplicationFactory& app_factory);
 
    private:
     void accept();
 
     tcp::acceptor acceptor_;
-    Application& app_;
+    ApplicationFactory& app_factory_;
 };
 
 }  // namespace httpserver
