@@ -1,7 +1,5 @@
 #include "connection.hpp"
 
-#include <iostream>
-
 namespace httpserver
 {
 
@@ -39,7 +37,7 @@ void Connection::read()
             }
             else
             {
-                std::cout << "async_read_until ERROR " << ec.message() << std::endl;
+                logger_.error() << "async_read_until " << ec.message() << std::endl;
             }
         });
 }
@@ -59,14 +57,14 @@ uint8_t* Connection::get_data_from_buffer(std::size_t n_bytes)
 void Connection::write(uint8_t* data, std::size_t length)
 {
     boost::asio::async_write(socket_, boost::asio::buffer(data, length),
-        [](const boost::system::error_code& ec, std::size_t /* length */)
+        [this](const boost::system::error_code& ec, std::size_t /* length */)
         {
             if (!ec)
             {
             }
             else
             {
-                std::cout << "async_write ERROR " << ec.message() << std::endl;
+                logger_.error() << "async_write " << ec.message() << std::endl;
             }
         });
 }

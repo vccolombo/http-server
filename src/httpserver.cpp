@@ -7,10 +7,9 @@ bool HTTPServer::on_data(uint8_t* data, std::size_t length)
 {
     // https://stackoverflow.com/questions/4508911/convert-uint8-t-to-stdstring-in-c
     std::string request_text = std::string(data, data + length);
-    std::cout << request_text << std::endl;
+    logger_.debug() << request_text << std::endl;
 
     auto header_params = parse_header(request_text);
-    std::cout << header_params.path << "\n";
 
     Request req = {.header = header_params, .body = ""};
     Response res;

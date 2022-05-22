@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "applicationfactory.hpp"
+#include "logger.hpp"
 
 namespace httpserver
 {
@@ -21,6 +22,7 @@ class TCPServer
 
     tcp::acceptor acceptor_;
     ApplicationFactory& app_factory_;
+    logging::Logger logger_{logging::create_logger("TCPServer")};
 };
 
 }  // namespace httpserver
