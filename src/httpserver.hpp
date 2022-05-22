@@ -2,12 +2,12 @@
 
 #include <cstdint>
 #include <cstring>
-#include <iostream>
 #include <string>
 
 #include "application.hpp"
 #include "applicationfactory.hpp"
 #include "httpparse.hpp"
+#include "logger.hpp"
 #include "request.hpp"
 #include "response.hpp"
 #include "router.hpp"
@@ -24,6 +24,7 @@ class HTTPServer final : public Application
 
    private:
     Router& router_;
+    logging::Logger logger_{logging::create_logger("HTTPServer")};
 };
 
 class HTTPServerFactory final : public ApplicationFactory
