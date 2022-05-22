@@ -58,6 +58,9 @@ int main(int argc, char* argv[])
     router.register_get("/", callback_index);
     router.register_get("/example.html", callback_examplecom);
     router.register_get("/sample1.html", callback_sample1);
+
+    router.register_static("examples/public");
+
     httpserver::HTTPServerFactory http_server_factory(router);
     httpserver::TCPServer server(io_context, endpoint, http_server_factory);
 

@@ -33,6 +33,7 @@ bool HTTPServer::on_data(uint8_t* data, std::size_t length)
         }
         else
         {
+            logger_.debug() << header_params.path + " not registered" << std::endl;
             char buf[64];
             snprintf(buf, sizeof(buf), "HTTP/1.1 %d\r\nContent-Length: 0\r\n\r\n", 404);
             writer_->write(reinterpret_cast<uint8_t*>(buf), sizeof(buf));
