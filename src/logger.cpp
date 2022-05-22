@@ -1,6 +1,8 @@
 #include "logger.hpp"
 
-#include <utility>
+#include <chrono>
+#include <cstring>
+#include <ctime>
 
 namespace httpserver::logging
 {
@@ -46,9 +48,14 @@ std::ostream& Logger::critical()
     return log(Level::CRITICAL);
 }
 
+// TODO: move this to somewhere else. It doesn't belong to this class
 std::string Logger::time_now() const
 {
-    return "<time placeholder>";
+    // https://stackoverflow.com/questions/997946/how-to-get-current-time-and-date-in-c
+    auto time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+
+    // https://stackoverflow.com/questions/9101590/fprintf-and-ctime-without-passing-n-from-ctime
+    return strtok(std::ctime(&time), "\n");
 }
 
 }  // namespace httpserver::logging
