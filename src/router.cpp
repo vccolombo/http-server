@@ -6,7 +6,7 @@ namespace httpserver
 {
 
 void Router::register_get(
-    const std::string& path, const std::function<void(Request&, Response&)>& callback)
+    const std::string& path, const std::function<void(const Request&, Response&)>& callback)
 {
     getters_[path] = callback;
 }
@@ -16,12 +16,12 @@ void Router::register_static(const std::string& folder_path)
     statics_.insert(folder_path);
 }
 
-std::function<void(Request&, Response&)> Router::get(const std::string& path)
+std::function<void(const Request&, Response&)> Router::get(const std::string& path)
 {
     // look first at the registered paths, which is a fast operation
     if (getters_.contains(path))
     {
-        return getters_[path];
+        return getters_.at(path);
     }
 
     // look second at the filesystem, as it is slower
@@ -36,7 +36,7 @@ std::function<void(Request&, Response&)> Router::get(const std::string& path)
                             << path << std::endl;
             if ("/" + file_path.path().filename().string() == path)
             {
-                return [this, file_path](Request& req, Response& res)
+                return [this, file_path](const Request& req, Response& res)
                 {
                     auto absolute_file_path = absolute(file_path.path());
                     logger_.info() << "serving static file " << absolute_file_path << std::endl;

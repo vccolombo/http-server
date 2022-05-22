@@ -22,7 +22,7 @@ class HTTPServer final : public Application
 
     bool on_data(uint8_t* data, std::size_t length) override;
 
-    Response do_get(Request& req) const;
+    Response do_get(const Request& req) const;
 
    private:
     Router& router_;

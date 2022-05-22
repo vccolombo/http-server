@@ -23,7 +23,7 @@ bool HTTPServer::on_data(uint8_t* data, std::size_t length)
         char buf[1024 + response_body_len];
         snprintf(buf, sizeof(buf), "HTTP/1.1 %d\r\nContent-Length: %lu\r\n\r\n%s", res.status(),
             response_body_len, response_body.c_str());
-        logger_.debug() << buf;
+        logger_.debug() << buf << std::endl;
         writer_->write(reinterpret_cast<uint8_t*>(buf), sizeof(buf));
     }
     if (header_params.method == Method::HEAD)
@@ -36,7 +36,7 @@ bool HTTPServer::on_data(uint8_t* data, std::size_t length)
         char buf[1024];
         snprintf(buf, sizeof(buf), "HTTP/1.1 %d\r\nContent-Length: %lu\r\n\r\n", res.status(),
             response_body_len);
-        logger_.debug() << buf;
+        logger_.debug() << buf << std::endl;
         writer_->write(reinterpret_cast<uint8_t*>(buf), sizeof(buf));
     }
     else
@@ -50,7 +50,7 @@ bool HTTPServer::on_data(uint8_t* data, std::size_t length)
     return false;
 }
 
-Response HTTPServer::do_get(Request& req) const
+Response HTTPServer::do_get(const Request& req) const
 {
     Response res;
     auto callback = router_.get(req.header.path);

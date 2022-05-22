@@ -16,14 +16,14 @@ class Router
 {
    public:
     void register_get(
-        const std::string& path, const std::function<void(Request&, Response&)>& callback);
+        const std::string& path, const std::function<void(const Request&, Response&)>& callback);
     void register_static(const std::string& folder_path);
 
-    std::function<void(Request&, Response&)> get(const std::string& path);
+    std::function<void(const Request&, Response&)> get(const std::string& path);
 
    private:
     // make this a (ordered)map if I ever implement a hierarchical iteration over it
-    std::unordered_map<std::string, std::function<void(Request&, Response&)>> getters_;
+    std::unordered_map<std::string, std::function<void(const Request&, Response&)>> getters_;
     // this is ordered because the order of registration is important
     // e.g. register_static("/1"); register_static("/2"); should always look at "/1" first
     std::set<std::string> statics_;
