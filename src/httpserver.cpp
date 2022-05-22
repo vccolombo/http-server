@@ -30,13 +30,13 @@ bool HTTPServer::on_data(uint8_t* data, std::size_t length)
             snprintf(buf, sizeof(buf),
                 "HTTP/1.1 %d OK\r\nContent-Length: %lu\r\nContent-Type: text/html\r\n\r\n%s",
                 res.status(), response_body_len, response_body.c_str());
-            writer_->write(reinterpret_cast<uint8_t*>(buf), strlen(buf));
+            writer_->write(reinterpret_cast<uint8_t*>(buf), sizeof(buf));
         }
         else
         {
             char buf[64];
             snprintf(buf, sizeof(buf), "HTTP/1.1 %d\r\nContent-Length: 0\r\n\r\n", 404);
-            writer_->write(reinterpret_cast<uint8_t*>(buf), strlen(buf));
+            writer_->write(reinterpret_cast<uint8_t*>(buf), sizeof(buf));
         }
     }
     else
@@ -44,7 +44,7 @@ bool HTTPServer::on_data(uint8_t* data, std::size_t length)
         // TODO: not implemented
         char buf[64];
         snprintf(buf, sizeof(buf), "HTTP/1.1 %d\r\nContent-Length: 0\r\n\r\n", 501);
-        writer_->write(reinterpret_cast<uint8_t*>(buf), strlen(buf));
+        writer_->write(reinterpret_cast<uint8_t*>(buf), sizeof(buf));
     }
 
     return false;
