@@ -22,6 +22,8 @@ class HTTPServer final : public Application
 
     bool on_data(uint8_t* data, std::size_t length) override;
 
+    Response do_get(Request& req) const;
+
    private:
     Router& router_;
     logging::Logger logger_{logging::create_logger("HTTPServer")};
