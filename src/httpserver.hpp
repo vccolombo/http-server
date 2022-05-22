@@ -7,6 +7,7 @@
 
 #include "application.hpp"
 #include "applicationfactory.hpp"
+#include "httpparse.hpp"
 #include "request.hpp"
 #include "response.hpp"
 #include "router.hpp"
@@ -22,10 +23,6 @@ class HTTPServer final : public Application
     bool on_data(uint8_t* data, std::size_t length) override;
 
    private:
-    struct HeaderParams parse_header(const std::string& request_text);
-    Method parse_method(const std::string& request_text);
-    std::string parse_path(const std::string& request_text);
-
     Router& router_;
 };
 
