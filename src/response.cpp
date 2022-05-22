@@ -1,5 +1,8 @@
 #include "response.hpp"
 
+#include <fstream>
+#include <sstream>
+
 namespace httpserver
 {
 
@@ -10,9 +13,21 @@ void Response::send(const std::string& data)
     data_ = data;
 }
 
-void Response::send_file(const std::string& path){
-    // TODO
-};
+// TODO: this might work better as a free function. I'll keep it here for now because I might have
+// plans to make this code more complex and require inner access
+void Response::send_file(const std::string& path)
+{
+    std::ifstream file(path);
+    if (file.fail())
+    {
+        // TODO: implement a specialized error
+        throw std::runtime_error("Could not open file " + path);
+    }
+
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    send(buffer.str());
+}
 
 void Response::set_status(Response::status_code_t status_code)
 {
@@ -28,6 +43,5 @@ std::string Response::data() const
 {
     return data_;
 }
-
 
 }  // namespace httpserver
