@@ -2,6 +2,9 @@
 
 #include <filesystem>
 
+#include "request.hpp"
+#include "response.hpp"
+
 namespace httpserver
 {
 
