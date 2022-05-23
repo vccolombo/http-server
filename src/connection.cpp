@@ -49,7 +49,7 @@ uint8_t* Connection::get_data_from_buffer(std::size_t n_bytes)
     std::istream is(&buffer_);
     // https://codereview.stackexchange.com/a/28759
     auto data = new uint8_t[n_bytes];
-    is.read(reinterpret_cast<char*>(data), n_bytes);
+    is.read(reinterpret_cast<char*>(data), static_cast<long>(n_bytes));
 
     return data;
 }

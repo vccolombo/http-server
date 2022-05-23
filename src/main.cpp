@@ -4,13 +4,17 @@
 #include "router.hpp"
 #include "server.hpp"
 
-void callback_index(const httpserver::Request& req, httpserver::Response& res)
+void callback_index(const httpserver::Request&, httpserver::Response& res);
+void callback_examplecom(const httpserver::Request&, httpserver::Response& res);
+void callback_sample1(const httpserver::Request&, httpserver::Response& res);
+
+void callback_index(const httpserver::Request&, httpserver::Response& res)
 {
     res.set_status(200);
     res.send("Hello World!!\r\nThis is a sample app for my http server\r\n;)");
 }
 
-void callback_examplecom(const httpserver::Request& req, httpserver::Response& res)
+void callback_examplecom(const httpserver::Request&, httpserver::Response& res)
 {
     static httpserver::logging::Logger logger{
         httpserver::logging::create_logger("callback_examplecom")};
@@ -27,7 +31,7 @@ void callback_examplecom(const httpserver::Request& req, httpserver::Response& r
     }
 }
 
-void callback_sample1(const httpserver::Request& req, httpserver::Response& res)
+void callback_sample1(const httpserver::Request&, httpserver::Response& res)
 {
     static httpserver::logging::Logger logger{
         httpserver::logging::create_logger("callback_sample1")};
@@ -44,7 +48,7 @@ void callback_sample1(const httpserver::Request& req, httpserver::Response& res)
     }
 }
 
-int main(int argc, char* argv[])
+int main(int, char* argv[])
 {
     static httpserver::logging::Logger logger{httpserver::logging::create_logger("main")};
 

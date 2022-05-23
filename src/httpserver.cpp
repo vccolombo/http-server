@@ -20,11 +20,12 @@ bool HTTPServer::on_data(uint8_t* data, std::size_t length)
         auto response_body_len = response_body.length();
 
         // TODO: create a class to wrap this buffer and allow any size
-        char buf[1024 + response_body_len];
-        snprintf(buf, sizeof(buf), "HTTP/1.1 %d\r\nContent-Length: %lu\r\n\r\n%s", res.status(),
-            response_body_len, response_body.c_str());
+        char* buf = new char[4096 + response_body_len];
+        snprintf(buf, 4096 + response_body_len, "HTTP/1.1 %d\r\nContent-Length: %lu\r\n\r\n%s",
+            res.status(), response_body_len, response_body.c_str());
         logger_.debug() << buf << std::endl;
-        writer_->write(reinterpret_cast<uint8_t*>(buf), sizeof(buf));
+        writer_->write(reinterpret_cast<uint8_t*>(buf), strlen(buf));
+        delete[] buf;
     }
     if (header_params.method == Method::HEAD)
     {
@@ -33,18 +34,18 @@ bool HTTPServer::on_data(uint8_t* data, std::size_t length)
         auto response_body_len = response_body.length();
 
         // TODO: create a class to wrap this buffer and allow any size
-        char buf[1024];
+        char buf[4096];
         snprintf(buf, sizeof(buf), "HTTP/1.1 %d\r\nContent-Length: %lu\r\n\r\n", res.status(),
             response_body_len);
         logger_.debug() << buf << std::endl;
-        writer_->write(reinterpret_cast<uint8_t*>(buf), sizeof(buf));
+        writer_->write(reinterpret_cast<uint8_t*>(buf), strlen(buf));
     }
     else
     {
         // TODO: not implemented
         char buf[64];
         snprintf(buf, sizeof(buf), "HTTP/1.1 %d\r\nContent-Length: 0\r\n\r\n", 501);
-        writer_->write(reinterpret_cast<uint8_t*>(buf), sizeof(buf));
+        writer_->write(reinterpret_cast<uint8_t*>(buf), strlen(buf));
     }
 
     return false;

@@ -36,7 +36,7 @@ std::function<void(const Request&, Response&)> Router::get(const std::string& pa
                             << path << std::endl;
             if ("/" + file_path.path().filename().string() == path)
             {
-                return [this, file_path](const Request& req, Response& res)
+                return [this, file_path](const Request&, Response& res)
                 {
                     auto absolute_file_path = absolute(file_path.path());
                     logger_.info() << "serving static file " << absolute_file_path << std::endl;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <boost/noncopyable.hpp>
 #include <memory>
 
 #include "writer.hpp"
@@ -10,7 +11,7 @@ namespace httpserver
 class Application;
 using Application_ptr = std::unique_ptr<Application>;
 
-class Application
+class Application : private boost::noncopyable
 {
    public:
     virtual ~Application() = default;
