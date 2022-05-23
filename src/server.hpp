@@ -1,16 +1,14 @@
 #pragma once
 
-#include <boost/asio.hpp>
 #include <memory>
 
-#include "applicationfactory.hpp"
 #include "logger.hpp"
+#include "using.hpp"
 
 namespace httpserver
 {
 
-using boost::asio::io_context;
-using boost::asio::ip::tcp;
+class ApplicationFactory;
 
 class TCPServer
 {

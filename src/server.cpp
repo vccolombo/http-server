@@ -3,6 +3,7 @@
 #include <boost/asio.hpp>
 #include <memory>
 
+#include "application.hpp"
 #include "applicationfactory.hpp"
 #include "connection.hpp"
 

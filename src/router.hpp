@@ -6,11 +6,12 @@
 #include <unordered_map>
 
 #include "logger.hpp"
-#include "request.hpp"
-#include "response.hpp"
 
 namespace httpserver
 {
+
+struct Request;
+class Response;
 
 class Router
 {

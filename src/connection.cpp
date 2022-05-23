@@ -1,5 +1,7 @@
 #include "connection.hpp"
 
+#include "application.hpp"
+
 namespace httpserver
 {
 
