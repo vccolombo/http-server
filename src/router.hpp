@@ -10,7 +10,7 @@
 namespace httpserver
 {
 
-class Request;
+struct Request;
 class Response;
 
 class Router

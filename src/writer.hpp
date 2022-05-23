@@ -6,9 +6,6 @@
 namespace httpserver
 {
 
-class Writer;
-using Writer_ptr = Writer*;
-
 class Writer
 {
    public:

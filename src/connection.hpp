@@ -1,17 +1,14 @@
 #pragma once
 
-#include <boost/asio.hpp>
 #include <cstdint>
 #include <memory>
 
-#include "application.hpp"
 #include "logger.hpp"
+#include "using.hpp"
 #include "writer.hpp"
 
 namespace httpserver
 {
-
-using boost::asio::ip::tcp;
 
 class Connection final : public Writer, public std::enable_shared_from_this<Connection>
 {

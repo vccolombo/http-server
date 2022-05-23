@@ -12,7 +12,7 @@ namespace httpserver
 {
 
 class Router;
-class Request;
+struct Request;
 class Response;
 
 class HTTPServer final : public Application

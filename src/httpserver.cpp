@@ -4,6 +4,7 @@
 #include "request.hpp"
 #include "response.hpp"
 #include "router.hpp"
+#include "writer.hpp"
 
 namespace httpserver
 {
