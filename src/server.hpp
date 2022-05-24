@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "logger.hpp"
 #include "using.hpp"
 
