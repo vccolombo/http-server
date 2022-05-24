@@ -3,10 +3,13 @@
 #include <boost/noncopyable.hpp>
 #include <memory>
 
-#include "using.hpp"
+#include "writer.hpp"
 
 namespace httpserver
 {
+
+class Application;
+using Application_ptr = std::unique_ptr<Application>;
 
 class Application : private boost::noncopyable
 {

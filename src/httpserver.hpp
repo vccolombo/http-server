@@ -6,27 +6,27 @@
 
 #include "application.hpp"
 #include "applicationfactory.hpp"
+#include "httpparse.hpp"
 #include "logger.hpp"
+#include "request.hpp"
+#include "response.hpp"
+#include "router.hpp"
 
 namespace httpserver
 {
 
-class Router;
-struct Request;
-class Response;
-
 class HTTPServer final : public Application
 {
    public:
-    explicit HTTPServer(Router& router);
+    explicit HTTPServer(Router& router) : router_(router) {}
 
     bool on_data(uint8_t* data, std::size_t length) override;
 
-    [[nodiscard]] Response do_get(const Request& req) const;
+    Response do_get(const Request& req) const;
 
    private:
     Router& router_;
-    logging::Logger logger_;
+    logging::Logger logger_{logging::create_logger("HTTPServer")};
 };
 
 class HTTPServerFactory final : public ApplicationFactory

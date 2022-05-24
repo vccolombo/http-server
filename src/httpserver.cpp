@@ -1,18 +1,7 @@
 #include "httpserver.hpp"
 
-#include "httpparse.hpp"
-#include "request.hpp"
-#include "response.hpp"
-#include "router.hpp"
-#include "writer.hpp"
-
 namespace httpserver
 {
-
-HTTPServer::HTTPServer(Router& router)
-    : router_(router), logger_(logging::create_logger("HTTPServer"))
-{
-}
 
 bool HTTPServer::on_data(uint8_t* data, std::size_t length)
 {
