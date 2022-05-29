@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
 
 namespace httpserver
 {
@@ -19,6 +20,7 @@ struct HeaderParams
 {
     Method method;
     std::string path;
+    std::unordered_map<std::string, std::string> query;
 };
 
 struct Request
